@@ -1,16 +1,41 @@
 <!--Embed the header.html template at this location-->
 {{ template "header.html" .}}
 
-  <!--Loop over the payload variable, which is the list of articles-->
-  {{range .payload }}
-    <!--Create the link for the article based on its ID-->
-    <a href="/article/view/{{.ID}}">
-      <!--Display the title of the article -->
-      <h2>{{.Title}}</h2>
-    </a>
-    <!--Display the content of the article-->
-    <p>{{.Content}}</p>
-  {{end}}
+<style>
+  h1 { 
+    color: white;
+    text-align: center;
+    font-family: Georgia, Garamond, Serif;
+  }
+  article {
+    background-color: #174040;
+    padding: 1em;
+    border-style: solid;
+    border-radius: 20px;
+    margin: auto;
+    display: block;
+    width: 300px;
+    height: 350px;
+  }
+  textinput {
+    font-size: 40px;
+    width: 200px;
+    height: 150px;
+    color: black;
+    margin:auto;
+  }
+
+</style>
+
+<article class="center-page">
+
+  <h1>Input</h1>
+  <input type="text" name="textinput" placeholder="Questionably Prime Number" style="textinput">
+  <h1>Your Answer</h1>
+  <input type="text" name="textinput" placeholder="Is it Prime?"style= "textinput">
+  
+</article>
+
 
 <!--Embed the footer.html template at this location-->
 {{ template "footer.html" .}}

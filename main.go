@@ -13,9 +13,6 @@ func main() { // used for setting up the server for the website
 	// Handle Index
 	router.GET("/", showIndexPage) // at initial login to base page (localhost8080)
 	// Handle GET requests at /article/view/some_article_id
-
-	router.GET("/article/view/:article_id", getArticle)
-
 	router.Run()
 
 }
