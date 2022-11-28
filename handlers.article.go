@@ -52,12 +52,13 @@ func AKSalgProcess(n int) bool {
 func allCoef(n int) []int {
 	var coef []int
 	for i := 0; i < n; i++ { // for each ^n
-		coef[0] = -coef[0] // swap the first val
-		coef[1+i] = 1      // set pascal triangle position
+		coef[1+i] = 1 // set pascal triangle position
 
 		for j := i; j > 0; j-- {
 			coef[j] = coef[j-1] - coef[j]
 		}
+		coef[0] = -coef[0] // swap the first val (same position as i++)
+
 	}
 	coef[0]++ // the "-(x^n -1)" one
 	coef[n]-- // the (x-1)^n one
