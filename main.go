@@ -1,18 +1,33 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
 
 var router *gin.Engine
 
-func main() { // used for setting up the server for the website
+func main() {
 
-	// Set the router as the default one provided by Gin
-	router := gin.Default()
+	gin.SetMode(gin.ReleaseMode)
+	router = gin.Default()
 	router.LoadHTMLGlob("templates/*")
 
 	// Handle Index
-	router.GET("/", showIndexPage) // at initial login to base page (localhost8080)
-	// Handle GET requests at /article/view/some_article_id
+	router.GET("/", func(c *gin.Context) { // the / means on initial connection (welcome page)
+		c.HTML(
+			http.StatusOK,
+			"index.html",
+			gin.H{
+				"title": "AKS Algorithm",
+			},
+		)
+	})
+	router.POST("/init", showAnswer) // at initial login to base page (localhost8080)
+
+	router.GET("/answer", showAnswer) // for performing AKS
+
 	router.Run()
 
 }

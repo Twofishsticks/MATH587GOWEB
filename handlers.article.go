@@ -4,6 +4,7 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,6 +15,25 @@ func showIndexPage(c *gin.Context) {
 		"title": "AKS Algorithm",
 	}, "index.html")
 
+}
+
+func showAnswer(c *gin.Context) {
+	numString := c.PostForm("number")
+	print(numString)
+
+	if AKSalgProcess(numString) { // if prime
+		render(c, gin.H{
+			"title": "Prime Found"}, "index.html")
+		print("Prime")
+
+	} else { // if non-prime
+		render(c, gin.H{
+			"title": "Prime NOT Found"}, "index.html")
+		//c.HTML(http.StatusBadRequest, "login.html", gin.H{
+		//"ErrorTitle":   "Login Failed",
+		//"ErrorMessage": "Invalid credentials provided"})
+		print("Nonprime")
+	}
 }
 
 // Render one of HTML, JSON or CSV based on the 'Accept' header of the request
@@ -37,7 +57,12 @@ func render(c *gin.Context, data gin.H, templateName string) {
 
 // prime if ( x – 1 )^n – ( x^n – 1) is divisible by n, x being some value, n being input value
 // true if prime, false if nonprime
-func AKSalgProcess(n int) bool {
+func AKSalgProcess(num string) bool {
+	n, err := strconv.Atoi(num)
+	if err != nil {
+		// issue w string -> int
+		panic(err)
+	}
 	coef := allCoef(n)
 	// now check to see if ALL coef are divisable by n
 	i := n
@@ -50,7 +75,7 @@ func AKSalgProcess(n int) bool {
 
 // returns all coefficients of ( x – 1 )^n – ( x^n – 1), using pascal's triangle
 func allCoef(n int) []int {
-	var coef []int
+	var coef = make([]int, n+1)
 	for i := 0; i < n; i++ { // for each ^n
 		coef[1+i] = 1 // set pascal triangle position
 

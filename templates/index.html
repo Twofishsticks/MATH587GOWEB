@@ -17,7 +17,8 @@
     width: 300px;
     height: 350px;
   }
-  textinput {
+
+  text-input {
     font-size: 40px;
     width: 200px;
     height: 150px;
@@ -25,15 +26,42 @@
     margin:auto;
   }
 
+  
+  .submit-btn {
+    background-color: #2A6977;
+    border: none;
+    color: white;
+    padding: 9px 40px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  .error {
+    color: white;
+  }
+
 </style>
 
 <article class="center-page">
 
   <h1>Input</h1>
-  <input type="text" name="textinput" placeholder="Questionably Prime Number" style="textinput">
-  <h1>Your Answer</h1>
-  <input type="text" name="textinput" placeholder="Is it Prime?"style= "textinput">
-  
+  <form action="/init" method="POST">
+
+    <input type="text" name="number" placeholder="Questionably Prime Number"style="text-input"id = "number"><br><br>
+    <div class="absolute">
+        <input class="submit-btn" type="submit" value="Submit">
+    </div>
+  </form> 
+  <form action="/answer" method="GET">
+    <p>Your number is: </p>
+  </form>
+  {{ if .ErrorTitle}}
+  <div class="error">
+    {{.ErrorTitle}}: {{.ErrorMessage}}
+    </div>
+  {{end}}
 </article>
 
 
