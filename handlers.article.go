@@ -64,59 +64,22 @@ func render(c *gin.Context, data gin.H, templateName string) {
 
 }
 
-/*
-// prime if ( x – 1 )^n – ( x^n – 1) is divisible by n, x being some value, n being input value
-// true if prime, false if nonprime
-func AKSalgProcess(num string) bool {
-	n, err := strconv.Atoi(num)
-	if err != nil {
-		// issue w string -> int
-		panic(err)
-	}
-	coef := allCoef(n)
-	// now check to see if ALL coef are divisable by n
-	i := n
-	for (i > 0) && (coef[i]%n == 0) { // go until there's no more coef to check or coef is not divisable
-		i-- // check the next coef value
-	}
-
-	return i < 0 // if loop broke on non divisable, return false
-}
-
-// returns all coefficients of ( x – 1 )^n – ( x^n – 1), using pascal's triangle
-func allCoef(n int) []int {
-	var coef = make([]int, n+1)
-	for i := 0; i < n; i++ { // for each ^n
-		coef[1+i] = 1 // set pascal triangle position
-
-		for j := i; j > 0; j-- {
-			coef[j] = coef[j-1] - coef[j]
-		}
-		coef[0] = -coef[0] // swap the first val (same position as i++)
-
-	}
-	coef[0]++ // the "-(x^n -1)" one
-	coef[n]-- // the (x-1)^n one
-	return coef
-}
-*/
-
-func bc(p int) []int64 {
-	c := make([]int64, p+1)
+func fullequation(p int) []int64 { // using int 64 to make it as big as possible w/o float
+	c := make([]int64, p+1) // initialize array of right size
 	r := int64(1)
-	for i, half := 0, p/2; i <= half; i++ {
+	for i, half := 0, p/2; i <= half; i++ { // for all possible nums
 		c[i] = r
 		c[p-i] = r
 		r = r * int64(p-i) / int64(i+1)
 	}
-	for i := p - 1; i >= 0; i -= 2 {
+	for i := p - 1; i >= 0; i -= 2 { // for all the odd exponents
 		c[i] = -c[i]
 	}
 	return c
 }
 
 func aks(p int) bool {
-	c := bc(p)
+	c := fullequation(p)
 	c[p]-- // for the (x^p-1)
 	c[0]++ // for the (-1)^p
 	for _, d := range c {
